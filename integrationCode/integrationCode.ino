@@ -22,8 +22,6 @@ void setup() {
 }
 
 void loop() {
- 
-
   MPU_UPDATE();
   float rollkal = roll();
   float pitchkal = pitch();
