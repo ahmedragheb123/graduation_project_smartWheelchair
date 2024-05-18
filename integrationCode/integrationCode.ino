@@ -6,7 +6,7 @@
     (c) 2014 by Korneliusz Jarzebski
 */
 #include <Arduino.h>
-#include <mpu_encoder.h>
+#include <mpu.h>
 #include <encoder_real.h>
 #include <Ultrasonic.h>
 
