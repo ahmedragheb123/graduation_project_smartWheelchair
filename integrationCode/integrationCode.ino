@@ -10,6 +10,8 @@
 #include <encoder_real.h>
 #include <Ultrasonic.h>
 
+#define Buzzer 5
+
 int direction1 = 0;
 int direction2 = 0;
 float rpm;
@@ -19,10 +21,13 @@ void setup() {
   initialize_encoder();
   intitialize_mpu();
   ultrasonic_init();
+
+  pinMode(Buzzer, OUTPUT);
 }
 
 void loop() {
   MPU_UPDATE();
+
   float rollkal = roll();
   float pitchkal = pitch();
   Serial.print(rollkal);
@@ -39,6 +44,7 @@ void loop() {
     // SETTING THE X DIRECTION RANGES OF THE HEADSET
     if (pitchkal > 0 && pitchkal < 90) {  //FORWARD DIRECTION
       if (measureDistanceForward()) {
+        digitalWrite(Buzzer, LOW);
         if (direction1 == -1 && rpm > 10) {
           pid_controller(0, direction1, 0, direction2);
         } else {
@@ -55,12 +61,14 @@ void loop() {
           }
         }
       } else {
+        digitalWrite(Buzzer, HIGH);
         pid_controller(0, direction1, 0, direction2);
       }
     }
 
     else if (pitchkal < 0 && pitchkal > -90) {  //BACKWARD DIRECTION
       if (measureDistanceReverse()) {
+        digitalWrite(Buzzer, LOW);
         if (direction1 == 1 && rpm > 10) {
           pid_controller(0, direction1, 0, direction2);
         } else {
@@ -77,11 +85,14 @@ void loop() {
           }
         }
       } else {
+        digitalWrite(Buzzer, HIGH);
         pid_controller(0, direction1, 0, direction2);
       }
     }
   } 
   else {
+
+    digitalWrite(Buzzer, LOW);
     
       // SETTING THE Y DIRECTION RANGES OF THE HEADSET
       if (rollkal < 0 && rollkal > -70) {  //RIGHT DIRECTION
