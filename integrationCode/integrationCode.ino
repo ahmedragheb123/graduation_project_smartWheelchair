@@ -10,7 +10,7 @@
 #include <encoder_real.h>
 #include <Ultrasonic.h>
 
-#define Buzzer 5
+//#define Buzzer 5
 
 int direction1 = 0;
 int direction2 = 0;
@@ -22,7 +22,7 @@ void setup() {
   intitialize_mpu();
   ultrasonic_init();
 
-  pinMode(Buzzer, OUTPUT);
+  //pinMode(Buzzer, OUTPUT);
 }
 
 void loop() {
@@ -44,8 +44,8 @@ void loop() {
     // SETTING THE X DIRECTION RANGES OF THE HEADSET
     if (pitchkal > 0 && pitchkal < 90) {  //FORWARD DIRECTION
       if (measureDistanceForward()) {
-        digitalWrite(Buzzer, LOW);
-        if (direction1 == -1 && rpm > 10) {
+        //digitalWrite(Buzzer, LOW);
+        if ((direction1 == -1 && rpm > 10) || (direction2 == 1 && rpm > 10)) {
           pid_controller(0, direction1, 0, direction2);
         } else {
           if (pitchkal > 15 && pitchkal < 45) {
@@ -61,15 +61,15 @@ void loop() {
           }
         }
       } else {
-        digitalWrite(Buzzer, HIGH);
+        //digitalWrite(Buzzer, HIGH);
         pid_controller(0, direction1, 0, direction2);
       }
     }
 
     else if (pitchkal < 0 && pitchkal > -90) {  //BACKWARD DIRECTION
       if (measureDistanceReverse()) {
-        digitalWrite(Buzzer, LOW);
-        if (direction1 == 1 && rpm > 10) {
+        //digitalWrite(Buzzer, LOW);
+        if ((direction1 == 1 && rpm > 10) || (direction2 == -1 && rpm > 10)) {
           pid_controller(0, direction1, 0, direction2);
         } else {
           if (pitchkal < -15 && pitchkal > -45) {
@@ -85,17 +85,19 @@ void loop() {
           }
         }
       } else {
-        digitalWrite(Buzzer, HIGH);
+        //digitalWrite(Buzzer, HIGH);
         pid_controller(0, direction1, 0, direction2);
       }
     }
-  } 
-  else {
+  } else {
 
-    digitalWrite(Buzzer, LOW);
-    
-      // SETTING THE Y DIRECTION RANGES OF THE HEADSET
-      if (rollkal < 0 && rollkal > -70) {  //RIGHT DIRECTION
+    //digitalWrite(Buzzer, LOW);
+
+    // SETTING THE Y DIRECTION RANGES OF THE HEADSET
+    if (rollkal < 0 && rollkal > -70) {   //LEFT DIRECTION
+      if ((direction1 == -1 && rpm > 10) || (direction2 == -1 && rpm > 10)) {
+        pid_controller(0, direction1, 0, direction2);
+      } else {  
         if (rollkal < -15 && rollkal > -45) {
           direction1 = 1;
           direction2 = 1;
@@ -108,20 +110,23 @@ void loop() {
           pid_controller(0, direction1, 0, direction2);
         }
       }
-
-      else if (rollkal > 0 && rollkal < 70) {  //LEFT DIRECTION
-        if (rollkal > 15 && rollkal < 45) {
-          direction1 = -1;
-          direction2 = -1;
-          pid_controller(50, direction1, 50, direction2);
-        } else if (rollkal > 50 && rollkal < 70) {
-          direction1 = -1;
-          direction2 = -1;
-          pid_controller(80, direction1, 80, direction2);
-        } else if (rollkal < 10 && rollkal > -10) {
+    }
+      else if (rollkal > 0 && rollkal < 70) {  //RIGHT DIRECTION
+        if ((direction1 == 1 && rpm > 10) || (direction2 == 1 && rpm > 10)) {
           pid_controller(0, direction1, 0, direction2);
+        } else {
+          if (rollkal > 15 && rollkal < 45) {
+            direction1 = -1;
+            direction2 = -1;
+            pid_controller(50, direction1, 50, direction2);
+          } else if (rollkal > 50 && rollkal < 70) {
+            direction1 = -1;
+            direction2 = -1;
+            pid_controller(80, direction1, 80, direction2);
+          } else if (rollkal < 10 && rollkal > -10) {
+            pid_controller(0, direction1, 0, direction2);
+          }
         }
       }
-     
+    }
   }
-}
