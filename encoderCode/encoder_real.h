@@ -9,5 +9,6 @@ void readencoder_2();
 float time();
 float time_2();
 float rpmreq();
+void brakeTheMotors();
 
 

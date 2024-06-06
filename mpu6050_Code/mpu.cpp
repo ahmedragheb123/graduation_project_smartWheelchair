@@ -11,7 +11,7 @@ void intitialize_mpu(){
   byte status = mpu.begin();
   Serial.print(F("MPU6050 status: "));
   Serial.println(status);
-  while(status!=0){ } // stop everything if could not connect to MPU6050
+  //while(status!=0){ } // stop everything if could not connect to MPU6050
   
   Serial.println(F("Calculating offsets, do not move MPU6050"));
   delay(1000);
