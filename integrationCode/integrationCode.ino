@@ -37,6 +37,8 @@ void loop() {
   Serial.print(rollkal);
   Serial.print(":");
   Serial.print(pitchkal);
+  Serial.print(":");
+  Serial.print(yawkal);
   float rollabs = abs(rollkal);
   float pitchabs = abs(pitchkal);
   Serial.println();
@@ -47,7 +49,6 @@ void loop() {
   } else if (yawkal < -70) {
     flag_z = 0;
   }
-
 
 
   if (flag_z == 1) {

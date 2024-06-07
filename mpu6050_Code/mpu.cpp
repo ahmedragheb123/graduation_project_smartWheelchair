@@ -31,3 +31,7 @@ float roll(){
 float pitch(){
   return (mpu.getAngleY());
 }
+
+float yaw(){
+  return (mpu.getAngleZ());
+}
