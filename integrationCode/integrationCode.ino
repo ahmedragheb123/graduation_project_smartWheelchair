@@ -1,10 +1,3 @@
-/*
-    Kalman Filter Example for MPU6050. Output for processing.
-    Read more: http://www.jarzebski.pl/arduino/rozwiazania-i-algorytmy/odczyty-pitch-roll-oraz-filtr-kalmana.html
-    GIT: https://github.com/jarzebski/Arduino-KalmanFilter
-    Web: http://www.jarzebski.pl
-    (c) 2014 by Korneliusz Jarzebski
-*/
 #include <Arduino.h>
 #include <mpu.h>
 #include <encoder_real.h>
