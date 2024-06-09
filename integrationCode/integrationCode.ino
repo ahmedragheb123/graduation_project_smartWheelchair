@@ -11,13 +11,23 @@ float rpm;
 
 int flag_z = 0;
 
+float rollkal = 0;
+float pitchkal = 0;
+float yawkal = 0;
+
 void setup() {
   Serial.begin(9600);
   initialize_encoder();
   intitialize_mpu();
   ultrasonic_init();
 
-  //pinMode(Buzzer, OUTPUT);
+  while (flag_z == 0) {
+    MPU_UPDATE();
+    yawkal = yaw();
+    if (yawkal > 50) {
+      flag_z = 1;
+    }
+  }
 }
 
 void loop() {
@@ -37,12 +47,6 @@ void loop() {
   Serial.println();
   rpm = rpmreq();
   //Serial.println(rpm);
-  if (yawkal > 70) {
-    flag_z = 1;
-  } else if (yawkal < -70) {
-    flag_z = 0;
-  }
-
 
   if (flag_z == 1) {
     if (rollabs < pitchabs) {
