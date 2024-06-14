@@ -3,7 +3,6 @@
 #include <encoder_real.h>
 #include <Ultrasonic.h>
 
-//#define Buzzer 5
 
 int direction1 = 0;
 int direction2 = 0;
